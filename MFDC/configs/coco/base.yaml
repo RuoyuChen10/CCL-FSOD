@@ -1,0 +1,27 @@
+_BASE_: "../Base-RCNN.yaml"
+MODEL:
+  META_ARCHITECTURE: "GeneralizedRCNNBase"
+  WEIGHTS: "/Path/to/ImageNet/Pretrain/Weight"
+  MASK_ON: False
+  RESNETS:
+    DEPTH: 101
+  RPN:
+    ENABLE_DECOUPLE: True
+    BACKWARD_SCALE: 0.0
+  ROI_HEADS:
+    NUM_CLASSES: 60
+    ENABLE_DECOUPLE: True
+    BACKWARD_SCALE: 0.75
+    NAME: "CommonalityROIHeads"
+    OUTPUT_LAYER: "DoubleFastRCNNOutputLayers"
+    MEMORY: False
+DATASETS:
+  TRAIN: ('coco14_trainval_base',)
+  TEST: ('coco14_test_base',)
+SOLVER:
+  IMS_PER_BATCH: 8
+  BASE_LR: 0.01
+  STEPS: (170000, 200000)
+  MAX_ITER: 220000
+  CHECKPOINT_PERIOD: 2000000
+OUTPUT_DIR: "/Path/to/Output/Dir"

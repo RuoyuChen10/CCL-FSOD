@@ -1,0 +1,52 @@
+_BASE_: "../Base-RCNN-FPN.yaml"
+MODEL:
+  WEIGHTS: "checkpoints/voc/faster_rcnn1/model_reset_surgery.pth"
+  MASK_ON: False
+  RESNETS:
+    DEPTH: 101
+  ROI_HEADS:
+    NUM_CLASSES: 20
+    OUTPUT_LAYER: "CosineSimOutputLayers"
+    FREEZE_FEAT: True
+    BATCH_SIZE_PER_IMAGE: 256
+  BACKBONE:
+    FREEZE: True
+  PROPOSAL_GENERATOR:
+    FREEZE: True
+INPUT:
+  MIN_SIZE_TRAIN: (480, 512, 544, 576, 608, 640, 672, 704, 736, 768, 800)
+  MIN_SIZE_TEST: 800
+DATASETS:
+  TRAIN: ('voc_2007_trainval_all1_2shot',)
+  TEST: ('voc_2007_test_all1',)
+SOLVER:
+  IMS_PER_BATCH: 2
+  BASE_LR: 0.000125
+  STEPS: (28000,)
+  MAX_ITER: 36000
+  CHECKPOINT_PERIOD: 500
+  WARMUP_ITERS: 80
+TEST:
+  AUG:
+    ENABLED: False
+  EVAL_PERIOD: 500
+SEED: 100
+OUTPUT_DIR: "checkpoints/voc/ExAu/ExAu-split1-2shot/"
+KNOWLEDGE: True
+KNOWLEDGE_MATRIX: "knowledge_matrix/vision_relationship/split1/cluster_5_replace_gt.npy"
+CLUSTER: True
+TAU: 0.2
+SHOT: 2
+NORM_MATRIX: "linear"  # [linear, exp, no]
+BANK_CONTAINER: 4
+COUNTERFACTUAL:
+  OPERATOR: True
+  START_ITER: 0
+  ERASE_THRESHOLD: 0.8
+  VISUALIZATION: True
+  COUNTER_NUMBER: 3
+  ERASE_RATE: 0.05
+  ERASE_METHOD: "random"
+LAMBDA1: 1.
+LAMBDA2: 2.
+LAMBDA3: 2.

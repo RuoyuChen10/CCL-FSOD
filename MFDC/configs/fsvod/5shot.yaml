@@ -1,0 +1,36 @@
+_BASE_: "../Base-RCNN.yaml"
+MODEL:
+  META_ARCHITECTURE: "GeneralizedRCNNBase"
+  WEIGHTS: "/Path/to/Base/Pretrain/Weight"
+  MASK_ON: False
+  BACKBONE:
+    FREEZE: False
+  RESNETS:
+    DEPTH: 101
+  RPN:
+    ENABLE_DECOUPLE: True
+    BACKWARD_SCALE: 0.0
+    FREEZE: False
+  ROI_HEADS:
+    NUM_CLASSES: 100
+    FREEZE_FEAT: True
+    CLS_DROPOUT: True
+    ENABLE_DECOUPLE: True
+    BACKWARD_SCALE: 0.01
+    NAME: "Res5ROIHeads"
+    OUTPUT_LAYER: "FastRCNNOutputLayers"
+DATASETS:
+  TRAIN: ('fsvod_5shot',)
+  TEST: ('fsvod_test_set',)
+SOLVER:
+  IMS_PER_BATCH: 16
+  BASE_LR: 0.01
+  STEPS: (4800,)
+  MAX_ITER: 6000
+  CHECKPOINT_PERIOD: 100000
+  WARMUP_ITERS: 0
+TEST:
+  PCB_ENABLE: False
+  PCB_MODELPATH: "/Path/to/ImageNet/Pre-Train/Weight"
+  EVAL_PERIOD: 400
+OUTPUT_DIR: "checkpoints/fsvod/5shot"

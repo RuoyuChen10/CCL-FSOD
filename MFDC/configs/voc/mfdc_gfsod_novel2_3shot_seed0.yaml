@@ -1,0 +1,58 @@
+_BASE_: "../Base-RCNN.yaml"
+MODEL:
+  WEIGHTS: "checkpoints/voc/base2/model_reset_surgery.pth"
+  MASK_ON: False
+  BACKBONE:
+    FREEZE: False
+  RESNETS:
+    DEPTH: 101
+  RPN:
+    ENABLE_DECOUPLE: True
+    BACKWARD_SCALE: 0.0
+    FREEZE: False
+  ROI_HEADS:
+    ENABLE_DECOUPLE: True
+    BACKWARD_SCALE: 0.001
+    NUM_CLASSES: 20
+    FREEZE_FEAT: True
+    CLS_DROPOUT: True
+    NAME: "CommonalityROIHeadsKnowledgeGuidedCL"
+    OUTPUT_LAYER: "DoubleFastRCNNOutputLayers"
+    MEMORY: True
+    AUGMENTATION: True
+    SEMANTIC: True
+    WARMUP_DISTILL: 200
+INPUT:
+  MIN_SIZE_TRAIN: (480, 512, 544, 576, 608, 640, 672, 704, 736, 768, 800)
+  MIN_SIZE_TEST: 800
+DATASETS:
+  TRAIN: ("removevoc_2007_trainval_all2_3shot_seed0", )
+  TEST: ("voc_2007_test_all2",)
+  TWO_STREAM: True
+SOLVER:
+  IMS_PER_BATCH: 8
+  BASE_LR: 0.005
+  STEPS: (1000,)
+  MAX_ITER: 2400
+  CHECKPOINT_PERIOD: 100
+  WARMUP_ITERS: 0
+TEST:
+  PCB_ENABLE: True
+  PCB_MODELPATH: "ImageNetPretrained/torchvision/resnet101-5d3b4d8f.pth"
+  EVAL_PERIOD: 100
+KGC:
+  SHOTS: 3
+  CONTAINER: 2
+  FEATURE_DIM: 128
+  KNOWLEDGE_MATRIX: "KnowledgeMatrix/vision_relationship/split2/cluster_5_replace_gt.npy"
+  TAU: 0.2
+  COEF: 0.1
+COUNTERFACTUAL:
+  OPERATOR: True
+  START_ITER: 20
+  ERASE_THRESHOLD: 0.8
+  VISUALIZATION: False
+  COUNTER_NUMBER: 3
+  ERASE_RATE: 0.05
+  ERASE_METHOD: "random"
+OUTPUT_DIR: "checkpoints/voc/split2/3shot_ExAU_seed0"

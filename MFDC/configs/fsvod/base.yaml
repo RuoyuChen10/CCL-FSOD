@@ -1,0 +1,33 @@
+_BASE_: "../Base-RCNN.yaml"
+MODEL:
+  META_ARCHITECTURE: "GeneralizedRCNNBase"
+  WEIGHTS: "checkpoints/coco/defrcn_det_r101_base/model_reset_remove.pth"
+  MASK_ON: False
+  RESNETS:
+    DEPTH: 101
+  RPN:
+    ENABLE_DECOUPLE: True
+    BACKWARD_SCALE: 0.0
+  ROI_HEADS:
+    NUM_CLASSES: 320
+    ENABLE_DECOUPLE: True
+    BACKWARD_SCALE: 0.75
+    NAME: "Res5ROIHeads"
+    OUTPUT_LAYER: "FastRCNNOutputLayers"
+    MEMORY: False
+DATASETS:
+  TRAIN: ('fsvod_train_set_base',)
+  TEST: ('fsvod_train_set_base',)
+SOLVER:
+  # IMS_PER_BATCH: 8
+  # BASE_LR: 0.01
+  # STEPS: (170000, )
+  # MAX_ITER: 200000
+  IMS_PER_BATCH: 16
+  STEPS: (85000, 100000)
+  MAX_ITER: 110000
+  CHECKPOINT_PERIOD: 25000
+TEST:
+  PCB_ENABLE: False
+  EVAL_PERIOD: 25000
+OUTPUT_DIR: "checkpoints/fsvod/base"

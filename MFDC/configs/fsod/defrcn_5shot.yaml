@@ -1,0 +1,39 @@
+_BASE_: "../Base-RCNN.yaml"
+MODEL:
+  META_ARCHITECTURE: "GeneralizedRCNNBase"
+  WEIGHTS: "checkpoints/fsod/base_ft/model_reset_remove.pth"
+  MASK_ON: False
+  BACKBONE:
+    FREEZE: False
+  RESNETS:
+    DEPTH: 101
+  RPN:
+    ENABLE_DECOUPLE: True
+    BACKWARD_SCALE: 0.0
+    FREEZE: False
+  ROI_HEADS:
+    ENABLE_DECOUPLE: True
+    BACKWARD_SCALE: 0.001
+    NAME: "Res5ROIHeads"
+    OUTPUT_LAYER: "FastRCNNOutputLayers"
+    NUM_CLASSES: 200
+    FREEZE_FEAT: True
+    CLS_DROPOUT: True
+INPUT:
+  MIN_SIZE_TRAIN: (480, 512, 544, 576, 608, 640, 672, 704, 736, 768, 800)
+  MIN_SIZE_TEST: 800
+DATASETS:
+  TRAIN: ("fsod_5shot_seed10", )
+  TEST: ('fsod_5shot_test_seed10',)
+SOLVER:
+  IMS_PER_BATCH: 16
+  BASE_LR: 0.01
+  STEPS: (1600,)
+  MAX_ITER: 2600
+  CHECKPOINT_PERIOD: 100000
+  WARMUP_ITERS: 100
+TEST:
+  PCB_ENABLE: False
+  PCB_MODELPATH: "ImageNetPretrained/torchvision/resnet101-5d3b4d8f.pth"
+  EVAL_PERIOD: 200
+OUTPUT_DIR: "checkpoints/fsod/5shot"

@@ -1,0 +1,57 @@
+_BASE_: "../Base-RCNN.yaml"
+MODEL:
+  META_ARCHITECTURE: "GeneralizedRCNNBase"
+  WEIGHTS: "checkpoints/fsod/base/model_reset_remove.pth"
+  MASK_ON: False
+  BACKBONE:
+    FREEZE: False
+  RESNETS:
+    DEPTH: 101
+  RPN:
+    ENABLE_DECOUPLE: True
+    BACKWARD_SCALE: 0.0
+    FREEZE: False
+  ROI_HEADS:
+    ENABLE_DECOUPLE: True
+    BACKWARD_SCALE: 0.01
+    NAME: "CommonalityROIHeads"
+    OUTPUT_LAYER: "DoubleFastRCNNOutputLayers"
+    NUM_CLASSES: 200
+    FREEZE_FEAT: True
+    CLS_DROPOUT: True
+    MEMORY: False
+    AUGMENTATION: False
+    SEMANTIC: False
+INPUT:
+  MIN_SIZE_TRAIN: (480, 512, 544, 576, 608, 640, 672, 704, 736, 768, 800)
+  MIN_SIZE_TEST: 800
+DATASETS:
+  TRAIN: ("fsod_5shot", )
+  TEST: ('fsod_5shot_test',)
+SOLVER:
+  IMS_PER_BATCH: 16
+  BASE_LR: 0.005
+  STEPS: (3200,)
+  MAX_ITER: 4000
+  CHECKPOINT_PERIOD: 100000
+  WARMUP_ITERS: 0
+TEST:
+  PCB_ENABLE: False
+  PCB_MODELPATH: "ImageNetPretrained/torchvision/resnet101-5d3b4d8f.pth"
+  EVAL_PERIOD: 400
+KGC:
+  SHOTS: 5
+  CONTAINER: 1
+  FEATURE_DIM: 128
+  KNOWLEDGE_MATRIX: "KnowledgeMatrix/text_relationship/fsod/fsod-clip.npy"
+  TAU: 0.2
+  COEF: 0.05
+COUNTERFACTUAL:
+  OPERATOR: True
+  START_ITER: 200
+  ERASE_THRESHOLD: 0.8
+  VISUALIZATION: True
+  COUNTER_NUMBER: 20
+  ERASE_RATE: 0.1
+  ERASE_METHOD: "random"
+OUTPUT_DIR: "checkpoints/fsod/5shot"
