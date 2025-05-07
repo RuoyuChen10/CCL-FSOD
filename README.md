@@ -1,4 +1,4 @@
-<h2 align="center"> <a href="https://openreview.net/forum?id=jKTUlxo5zy">【TPAMI 2025 🔥】Generalized Semantic Contrastive Learning via Embedding Side Information for Few-Shot Object Detection</a></h2>
+<h2 align="center"> <a href="https://ieeexplore.ieee.org/document/10963743">【TPAMI 2025 🔥】Generalized Semantic Contrastive Learning via Embedding Side Information for Few-Shot Object Detection</a></h2>
 <h5 align="center"> If you like our project, please give us a star ⭐ on GitHub for latest update.  </h2>
 
 [![arXiv](https://img.shields.io/badge/Arxiv-2504.07060-b31b1b.svg?logo=arXiv)](https://arxiv.org/abs/2504.07060)
