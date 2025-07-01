@@ -8,13 +8,16 @@
 
 ## 📰 News & Update
 
+- **[2025.07.01]** We released the code based on the [DeViT](https://github.com/mlzxy/devit) architecture.
 - **[2025.04.09]** Our paper was accepted by Journal `IEEE Transactions on Pattern Analysis and Machine Intelligence (TPAMI)`!
 
 ## 🗝️ How to Run
 
-The project includes [TFA++](./TFA++/) and [MFDC](./MFDC/) folders. Please enter different folders and follow their commands to reproduce.
+The project includes [TFA++](./TFA++/), [MFDC](./MFDC/) and [DeViT](./DeViT) folders. Please enter different folders and follow their commands to reproduce.
 
 ## 👍 Acknowledgement
+
+[DeViT](https://github.com/mlzxy/devit): an open-set object detector.
 
 [FsDet](https://github.com/ucbdrive/few-shot-object-detection): Implementations of few-shot object detection benchmarks.
 
