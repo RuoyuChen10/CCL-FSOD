@@ -6,6 +6,7 @@
 
 **Note2:** The DeViT used in this paper is derived from the v2 version of the paper on arxiv. Because its final version had not been released at that time, there may be some differences with the final code version of DeViT.
 
+**Note3:** The main change is in this file: [https://github.com/RuoyuChen10/CCL-FSOD/blob/main/DeViT/detectron2/modeling/meta_arch/devit_ours.py](https://github.com/RuoyuChen10/CCL-FSOD/blob/main/DeViT/detectron2/modeling/meta_arch/devit_ours.py).
 
 ## 1. Early preparation
 
